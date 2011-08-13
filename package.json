@@ -2,6 +2,8 @@
   "name": "colony",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.2.0"
+	"express": "2.2.0",
+	"mustache": "0.3.1-dev",
+	"cradle": "0.5.5"
   }
 }
