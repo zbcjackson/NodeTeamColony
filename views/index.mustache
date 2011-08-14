@@ -2,9 +2,11 @@
 <html>
 	<head>
 		<title>Team Colony</title>
+		<script type="text/javascript" src="js/jquery-1.6.2.js"></script>
 	</head>
 	<body>
 		<div>Specification By Example</div>
+		<div style="float:right"><button id="save">Save</button></div>
 		<div>
 			<table border="1" width="100%">
 				<tr>
@@ -22,14 +24,22 @@
 						<td>{{name}}</td>
 						<td>{{estimation}}</td>
 						<td>{{translator}}</td>
-						<td>{{translateFinish}}</td>
+						<td><input type="checkbox" {{#translateFinish}}checked{{/translateFinish}} /></td>
 						<td>{{reviewer1}}</td>
-						<td>{{review1Finish}}</td>
+						<td><input type="checkbox" {{#review1Finish}}checked{{/review1Finish}} /></td>
 						<td>{{reviewer2}}</td>
-						<td>{{review2Finish}}</td>
+						<td><input type="checkbox" {{#review2Finish}}checked{{/review2Finish}} /></td>
 					</tr>
 				{{/tasks}}
 			</table>
 		</div>
+		<script type="text/javascript">
+			$(function(){
+				$("#save").click(function(){
+					$.post("save", function(){
+					});
+				});
+			});
+		</script>
 	</body>
 </html>
