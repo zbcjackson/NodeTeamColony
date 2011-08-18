@@ -33,11 +33,18 @@ app.use('/js', express.static(__dirname + '/js'));
 app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
+var index;
 app.get('/', function(request, response) {
-	fs.readFile('index.html', function(err, text){
+	var output = function(error, text){
 		response.write(text);
 		response.end();
-	});
+	};
+	if (index){
+		output(null, index);
+	}
+	else{
+		fs.readFile('index.html', output);
+	}
 //	db.view('task/all', function(err, doc){
 //		var tasks = [];
 //		doc.rows.forEach(function(row){

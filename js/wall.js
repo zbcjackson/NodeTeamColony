@@ -1,9 +1,4 @@
 $(function(){
-	Backbone.sync = function(method, model, options){
-		console.log(method, model);
-		options.success(model);
-	};
-
 	_.templateSettings = {
 		interpolate : /\{\{(.+?)\}\}/g,
 		evaluate: /\{\{#(.+?)\}\}/g
@@ -23,7 +18,8 @@ $(function(){
 	});
 
 	window.TaskList = Backbone.Collection.extend({
-		model: Task
+		model: Task,
+		localStorage: new Store("tasks")
 
 	});
 
@@ -39,8 +35,13 @@ $(function(){
 			$(this.el).html(Mustache.to_html(this.template, this.model.toJSON()));
 			return this;
 		},
-		update: function(){
-			console.dir(arguments);			
+		update: function(e){
+			var element = $(e.srcElement);
+			var value = element.attr('type') === "text" ? element.val() : (element.attr("checked") ? true : false);
+			var key = element.attr("data");
+			console.log(key, value);
+			this.model.attributes[key] = value;
+			this.model.save();
 		}
 	});
 
@@ -64,7 +65,6 @@ $(function(){
 		},
 		add: function(){
 			var task = tasks.create();
-			this.addOne(task);
 		},
 		addOne: function(task){
 			var view = new TaskView({model: task});
