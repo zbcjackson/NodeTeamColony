@@ -33,5 +33,17 @@
 				{{/tasks}}
 			</table>
 		</div>
+		<script id="taskTemplate" type="text/html">			
+			<tr>
+				<td><input type="text" value="{{name}}" /></td>
+				<td><input type="text" value="{{estimation}}" /></td>
+				<td><input type="text" value="{{translator}}" /></td>
+				<td><input type="checkbox" {{#translateFinish}}checked{{/translateFinish}} /></td>
+				<td><input type="text" value="{{reviewer1}}" /></td>
+				<td><input type="checkbox" {{#review1Finish}}checked{{/review1Finish}} /></td>
+				<td><input type="text" value="{{reviewer2}}" /></td>
+				<td><input type="checkbox" {{#review2Finish}}checked{{/review2Finish}} /></td>
+			</tr>
+		</script>
 	</body>
 </html>

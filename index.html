@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Team Colony</title>
+		<script type="text/javascript" src="js/jquery-1.6.2.js"></script>
+		<script type="text/javascript" src="js/mustache.js"></script>
+		<script type="text/javascript" src="js/underscore.js"></script>
+		<script type="text/javascript" src="js/backbone.js"></script>
+		<script type="text/javascript" src="js/wall.js"></script>
+	</head>
+	<body>
+		<div>Specification By Example</div>
+		<div style="float:right"><button id="add">+</button><button id="save">Save</button></div>
+		<div>
+			<table border="1" width="100%">
+				<tr>
+					<th>Chapter</th>
+					<th>Estimation</th>
+					<th>Translate</th>
+					<th>Finish</th>
+					<th>Review 1</th>
+					<th>Finish</th>
+					<th>Review 2</th>
+					<th>Finish</th>
+				</tr>
+			</table>
+		</div>
+		<script id="taskTemplate" type="text/html">			
+			<td><input type="text" data="name" value="{{name}}" /></td>
+			<td><input type="text" data="estimation" value="{{estimation}}" /></td>
+			<td><input type="text" data="translator" value="{{translator}}" /></td>
+			<td><input type="checkbox" data="translateFinish" {{#translateFinish}}checked{{/translateFinish}} /></td>
+			<td><input type="text" data="reviewer1" value="{{reviewer1}}" /></td>
+			<td><input type="checkbox" data="review1Finish" {{#review1Finish}}checked{{/review1Finish}} /></td>
+			<td><input type="text" data="reviewer2" value="{{reviewer2}}" /></td>
+			<td><input type="checkbox" data="reviewer2Finish" {{#review2Finish}}checked{{/review2Finish}} /></td>
+		</script>
+	</body>
+</html>

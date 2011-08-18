@@ -1,6 +1,7 @@
 var express = require('express');
 var mustache = require('mustache');
 var cradle = require('cradle');
+var fs = require('fs');
 
 var db = new(cradle.Connection)().database('colony');
 
@@ -33,13 +34,17 @@ app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
 app.get('/', function(request, response) {
-	db.view('task/all', function(err, doc){
-		var tasks = [];
-		doc.rows.forEach(function(row){
-			tasks.push(row.value);
-		});
-		response.render('index.mustache', {locals:{tasks: tasks}});
+	fs.readFile('index.html', function(err, text){
+		response.write(text);
+		response.end();
 	});
+//	db.view('task/all', function(err, doc){
+//		var tasks = [];
+//		doc.rows.forEach(function(row){
+//			tasks.push(row.value);
+//		});
+//		response.render('index.mustache', {locals:{tasks: tasks}});
+//	});
 });
 
 var port = process.env.PORT || 3000;
