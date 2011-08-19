@@ -29,15 +29,24 @@ $(function(){
 		tagName: "tr",
 		template: $('#taskTemplate').html(),
 		events: {
-			"change tr input": "update"
+			"change input": "updateOnChange",
+			"keypress input[type='text']": "updateOnEnter"
 		},
 		render: function(){
 			$(this.el).html(Mustache.to_html(this.template, this.model.toJSON()));
 			return this;
 		},
+		updateOnChange: function(e){
+			this.update(e);
+		},
+		updateOnEnter: function(e){
+			if (e.keyCode == 13){
+				this.update(e);
+			}
+		},
 		update: function(e){
 			var element = $(e.srcElement);
-			var value = element.attr('type') === "text" ? element.val() : (element.attr("checked") ? true : false);
+			var value = element.attr("type") === "text" ? element.val() : (element.attr("checked") ? true : false);
 			var key = element.attr("data");
 			console.log(key, value);
 			this.model.attributes[key] = value;
