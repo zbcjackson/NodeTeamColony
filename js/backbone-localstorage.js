@@ -16,12 +16,14 @@ function guid() {
 // with a meaningful name, like the name you'd give a table.
 var Store = function(name) {
   this.name = name;
-  var store = localStorage.getItem(this.name);
+  var store = this.load();
   this.data = (store && JSON.parse(store)) || {};
 };
 
 _.extend(Store.prototype, {
-
+	load: function(){
+		return localStorage.getItem(this.name);
+	},
   // Save the current state of the **Store** to *localStorage*.
   save: function() {
     localStorage.setItem(this.name, JSON.stringify(this.data));
