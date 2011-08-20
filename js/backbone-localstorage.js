@@ -67,7 +67,7 @@ _.extend(Store.prototype, {
 Backbone.sync = function(method, model, options) {
 	console.log(method, model, options);
   var resp;
-  var store = model.localStorage || model.collection.localStorage;
+  var store = new Store("tasks");
 
   switch (method) {
     case "read":    resp = model.id ? store.find(model) : store.findAll(); break;

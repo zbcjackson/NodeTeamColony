@@ -18,9 +18,7 @@ $(function(){
 	});
 
 	window.TaskList = Backbone.Collection.extend({
-		model: Task,
-		localStorage: new Store("tasks")
-
+		model: Task
 	});
 
 	window.tasks = new TaskList;
