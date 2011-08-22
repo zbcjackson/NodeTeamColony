@@ -2,6 +2,7 @@ var express = require('express');
 var mustache = require('mustache');
 var cradle = require('cradle');
 var fs = require('fs');
+var _=require('underscore');
 
 var db = new(cradle.Connection)('http://teamcolony.iriscouch.com', 80).database('colony');
 
@@ -27,22 +28,21 @@ var tmpl = {
 	}
 };
 
+var sessionStore = new express.session.MemoryStore;
 var app = express.createServer(express.logger(), express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.session({ secret: "secret_key", store: sessionStore }));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));
-app.get('/', express.static(__dirname +'/'));
 app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
-//app.get('/', function(request, response, next) {
-//	db.view('task/all', function(err, doc){
-//		var tasks = [];
-//		doc.rows.forEach(function(row){
-//			tasks.push(row.value);
-//		});
-//		response.render('index.mustache', {locals:{tasks: tasks}});
-//	});
-//});
+app.get('/', function(request, response, next){
+	console.log(request.sessionID);
+	console.log(request.session.id);
+	console.log(sessionStore.sessions);
+	express.static(__dirname + '/')(request, response, next);
+});
 
 app.get('/tasks/:id?', function(request, response) {
 	if (request.params.id) {
@@ -55,7 +55,7 @@ app.get('/tasks/:id?', function(request, response) {
 			doc.rows.forEach(function(row){
 				tasks.push(row.value);
 			});
-			response.send(tasks);
+			response.json(tasks);
 		});
 	}
 });
@@ -64,7 +64,7 @@ app.post('/tasks', function(request, response) {
 	console.log("Create a task");
 	console.log(request.body);
 	db.save(request.body, function(err, doc) {
-		response.send({_id: doc.id, _rev: doc.rev});
+		response.json({_id: doc.id, _rev: doc.rev});
 	});
 });
 
@@ -74,7 +74,7 @@ app.put('/tasks/:id', function(request, response) {
 	db.save(request.params.id, request.body, function(err, doc){
 		console.log(err);
 		console.log(doc);
-		response.send({});
+		response.json(null);
 	});
 });
 
