@@ -18,7 +18,8 @@ $(function(){
 	});
 
 	window.TaskList = Backbone.Collection.extend({
-		model: Task
+		model: Task,
+		url: '/tasks'
 	});
 
 	window.tasks = new TaskList;
