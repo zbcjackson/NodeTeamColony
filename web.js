@@ -30,21 +30,18 @@ var tmpl = {
 var app = express.createServer(express.logger());
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));
+app.get('/', express.static(__dirname +'/'));
 app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
-var index;
-app.get('/', function(request, response) {
-	var output = function(error, text){
-		response.write(text);
-		response.end();
-	};
-	if (index){
-		output(null, index);
-	}
-	else{
-		fs.readFile('index.html', output);
-	}
+//app.get('/', function(request, response, next) {
+//	var output = function(error, text){
+//		response.write(text);
+//		response.end();
+//	};
+//	fs.readFile('index.html', output);
+//	options = {root: '/', path: '/index.html', getOnly: true};
+//	express.static.send(request, response, next, options);
 //	db.view('task/all', function(err, doc){
 //		var tasks = [];
 //		doc.rows.forEach(function(row){
@@ -52,7 +49,7 @@ app.get('/', function(request, response) {
 //		});
 //		response.render('index.mustache', {locals:{tasks: tasks}});
 //	});
-});
+//});
 
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
