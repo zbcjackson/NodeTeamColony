@@ -28,6 +28,9 @@ $(function(){
 			"change input": "updateOnChange",
 			"keypress input[type='text']": "updateOnEnter"
 		},
+		initialize: function(){
+			this.model.bind("change", this.render, this);
+		},
 		render: function(){
 			$(this.el).html(Mustache.to_html(this.template, this.model.toJSON()));
 			return this;
@@ -44,9 +47,15 @@ $(function(){
 			var element = $(e.srcElement);
 			var value = element.attr("type") === "text" ? element.val() : (element.attr("checked") ? true : false);
 			var key = element.attr("data");
-			console.log(key, value);
-			this.model.attributes[key] = value;
-			this.model.save();
+			var updateData = {};
+			updateData[key] = value;
+			this.model.save(updateData, 
+				{
+					error: function(model, jqXhr, options) {
+						notifier.error(jqXhr.responseText);
+						model.fetch();
+					}
+				});
 		}
 	});
 
@@ -61,7 +70,6 @@ $(function(){
 		initialize: function(){
 			tasks.bind('add', this.addOne, this);
 			tasks.bind('reset', this.addAll, this);
-			tasks.bind('all', this.render, this);
 			tasks.fetch();
 		},
 

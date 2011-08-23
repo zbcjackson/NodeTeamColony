@@ -47,6 +47,10 @@ app.get('/', function(request, response, next){
 app.get('/tasks/:id?', function(request, response) {
 	if (request.params.id) {
 		console.log("Read the task " + request.params.id);
+		db.get(request.params.id, function(err, doc){
+			console.log(doc);
+			response.json(doc);
+		});
 	}
 	else {
 		console.log("Read tasks");
@@ -74,7 +78,12 @@ app.put('/tasks/:id', function(request, response) {
 	db.save(request.params.id, request.body, function(err, doc){
 		console.log(err);
 		console.log(doc);
-		response.json(null);
+		if (err){
+			response.send("Update conflict!", 500);
+		}
+		else{
+			response.json({_rev: doc.rev});
+		}
 	});
 });
 
