@@ -10,7 +10,8 @@ $(function(){
 			"review1Finish": false,
 			"reviewer2": "",
 			"review2Finish": false
-		}
+		},
+		idAttribute: "_id"
 	});
 
 	window.TaskList = Backbone.Collection.extend({
