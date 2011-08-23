@@ -1,8 +1,4 @@
 $(function(){
-	_.templateSettings = {
-		interpolate : /\{\{(.+?)\}\}/g,
-		evaluate: /\{\{#(.+?)\}\}/g
-	};
 
 	window.Task = Backbone.Model.extend({
 		defaults: {
