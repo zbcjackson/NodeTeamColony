@@ -1,5 +1,4 @@
 $(function(){
-
 	window.Task = Backbone.Model.extend({
 		defaults: {
 			"name": "",
@@ -32,7 +31,9 @@ $(function(){
 			this.model.bind("change", this.render, this);
 		},
 		render: function(){
-			$(this.el).html(Mustache.to_html(this.template, this.model.toJSON()));
+			$(this.el).addClass("new").html(Mustache.to_html(this.template, this.model.toJSON()));
+			var self = this;
+			setTimeout(function(){$(self.el).removeClass("new");}, 1000);
 			return this;
 		},
 		updateOnChange: function(e){
@@ -81,7 +82,9 @@ $(function(){
 		},
 		addOne: function(task){
 			var view = new TaskView({model: task});
-			this.$("table").append(view.render().el);
+			var row = $(view.render().el);
+			this.$("table").append(row);
+			row.removeClass("new");
 		},
 		addAll: function(){
 			tasks.each(this.addOne);
