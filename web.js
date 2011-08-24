@@ -34,6 +34,7 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: "secret_key", store: sessionStore }));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));
+app.use('/pic', express.static(__dirname + '/pic'));
 app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
@@ -112,6 +113,10 @@ app.post('/check', function(request, response){
 		});
 		response.json(result);
 	});
+});
+
+app.get('/users', function(request, response){
+	response.json(_.map(sessionStore.sessions, function(s){return s.id;}));
 });
 
 var port = process.env.PORT || 3000;

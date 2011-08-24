@@ -60,6 +60,25 @@ $(function(){
 		}
 	});
 
+	window.User = Backbone.Model.extend({
+		
+	});
+
+	window.UserList = Backbone.Collection.extend({
+		model: User,
+		url: '/users'
+	});
+
+	window.users = new UserList;
+
+	window.UserView = Backbone.View.extend({
+		tagName: "img",
+		render: function(){
+			$(this.el).attr("src", "pic/avatar.png").css({"float": "left"});
+			return this;
+		}
+	});
+
 	window.AppView = Backbone.View.extend({
 		el: $("body"),
 
@@ -72,6 +91,9 @@ $(function(){
 			tasks.bind('add', this.addOne, this);
 			tasks.bind('reset', this.addAll, this);
 			tasks.fetch();
+
+			users.bind('reset', this.renderOnline, this);
+			users.fetch();
 		},
 
 		save: function(){
@@ -111,6 +133,14 @@ $(function(){
 				},
 				"json"
 			);
+		},
+		renderUser: function(user){
+			var view = new UserView({model: user});
+			this.$("#online").append(view.render().el);
+		},
+		renderOnline: function(){
+			this.$("#online").html("");
+			users.each(this.renderUser);
 		}
 	});
 
