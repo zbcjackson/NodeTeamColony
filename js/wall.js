@@ -88,6 +88,29 @@ $(function(){
 		},
 		addAll: function(){
 			tasks.each(this.addOne);
+		},
+		checkChange: function(){
+			$.post(
+				"check", 
+				{have: _.map(tasks.models, function(m){
+					return {id: m.id, rev: m.attributes["_rev"]};
+				})}, 
+				function(update){
+					for(var i = 0, length = update.changed.length; i < length; ++i){
+						var model = tasks.get(update.changed[i]._id);
+						model.attributes = update.changed[i];
+						model.change();
+
+					}
+					for(var i = 0, length = update.added.length; i < length; ++i){
+						tasks.add(update.added[i]);
+					}
+					if (update.added.length || update.changed.length){
+						notifier.info("Change found.");
+					}
+				},
+				"json"
+			);
 		}
 	});
 

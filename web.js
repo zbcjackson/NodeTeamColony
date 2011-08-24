@@ -92,6 +92,28 @@ app.delete('/tasks/:id', function(request, response) {
 	consoel.log(request.body);
 });
 
+app.post('/check', function(request, response){
+	console.log(request.body);
+	db.view('tasks/all', function(err, doc){
+		var result = {added: [], changed: []};
+		var have = request.body.have;
+		doc.rows.forEach(function(row){
+			var existingTask = _.detect(have, function(task){
+				return row.key === task.id;
+			});
+			if (existingTask){
+				if (row.value._rev != existingTask.rev){
+					result.changed.push(row.value);
+				}
+			}
+			else{
+				result.added.push(row.value);
+			}
+		});
+		response.json(result);
+	});
+});
+
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
   console.log("Listening on " + port);
