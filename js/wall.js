@@ -74,7 +74,7 @@ $(function(){
 	window.UserView = Backbone.View.extend({
 		tagName: "img",
 		render: function(){
-			$(this.el).attr("src", "pic/avatar.png").css({"float": "left"});
+			$(this.el).attr("src", "pic/avatar.png");
 			return this;
 		}
 	});
