@@ -88,9 +88,14 @@ app.put('/tasks/:id', function(request, response) {
 	});
 });
 
-app.delete('/tasks/:id', function(request, response) {
+app['delete']('/tasks/:id', function(request, response) {
 	console.log("Delete the task " + request.params.id);
-	consoel.log(request.body);
+	db.get(request.params.id, function(getErr, doc){
+		db.remove(request.params.id, doc._rev, function(removeErr, removedDoc){
+			console.log("Remove Handler");
+		});
+		response.send(204);
+	});
 });
 
 app.post('/check', function(request, response){

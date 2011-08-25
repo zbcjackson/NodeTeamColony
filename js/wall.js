@@ -25,10 +25,12 @@ $(function(){
 		template: $('#taskTemplate').html(),
 		events: {
 			"change input": "updateOnChange",
-			"keypress input[type='text']": "updateOnEnter"
+			"keypress input[type='text']": "updateOnEnter",
+			"click .delete": "remove"
 		},
 		initialize: function(){
 			this.model.bind("change", this.render, this);
+			this.model.bind("destroy", this.removeEl, this);
 		},
 		render: function(){
 			$(this.el).addClass("new").html(Mustache.to_html(this.template, this.model.toJSON()));
@@ -57,6 +59,12 @@ $(function(){
 						model.fetch();
 					}
 				});
+		},
+		remove: function(){
+			this.model.destroy();
+		},
+		removeEl: function(){
+			$(this.el).remove();
 		}
 	});
 

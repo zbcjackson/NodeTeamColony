@@ -36,6 +36,12 @@
 				position: fixed;
 				bottom: 0px;
 			}
+			.delete{
+				display: none;
+			}
+			td:hover .delete{
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
@@ -57,7 +63,7 @@
 		</div>
 		<div id="onlineContainer">Online:<span id="online"></span></div>
 		<script id="taskTemplate" type="text/html">			
-			<td><input type="text" data="name" value="{{name}}" /></td>
+			<td><input type="text" data="name" value="{{name}}" /><button class="delete">Delete</div></td>
 			<td><input type="text" data="estimation" value="{{estimation}}" /></td>
 			<td><input type="text" data="translator" value="{{translator}}" /></td>
 			<td><input type="checkbox" data="translateFinish" {{#translateFinish}}checked{{/translateFinish}} /></td>
