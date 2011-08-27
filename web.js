@@ -29,9 +29,9 @@ var tmpl = {
 };
 
 var sessionStore = new express.session.MemoryStore;
-var app = express.createServer(express.logger(), express.bodyParser());
+var app = express.createServer(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({ secret: "secret_key", store: sessionStore }));
+app.use(express.session({ secret: "secret_key", store: sessionStore, cookie: {maxAge: 300000} }));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/pic', express.static(__dirname + '/pic'));
@@ -39,9 +39,6 @@ app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
 app.get('/', function(request, response, next){
-	console.log(request.sessionID);
-	console.log(request.session.id);
-	console.log(sessionStore.sessions);
 	express.static(__dirname + '/')(request, response, next);
 });
 
@@ -99,30 +96,43 @@ app['delete']('/tasks/:id', function(request, response) {
 });
 
 app.post('/check', function(request, response){
-	console.log(request.body);
 	db.view('tasks/all', function(err, doc){
 		var result = {added: [], changed: []};
 		var have = request.body.have;
-		doc.rows.forEach(function(row){
-			var existingTask = _.detect(have, function(task){
-				return row.key === task.id;
-			});
-			if (existingTask){
-				if (row.value._rev != existingTask.rev){
-					result.changed.push(row.value);
+		if (doc && doc.rows){
+			doc.rows.forEach(function(row){
+				var existingTask = _.detect(have, function(task){
+					return row.key === task.id;
+				});
+				if (existingTask){
+					if (row.value._rev != existingTask.rev){
+						result.changed.push(row.value);
+					}
 				}
-			}
-			else{
-				result.added.push(row.value);
-			}
-		});
+				else{
+					result.added.push(row.value);
+				}
+			});
+		}
 		response.json(result);
 	});
 });
 
 app.get('/users', function(request, response){
-	response.json(_.map(sessionStore.sessions, function(s){return s.id;}));
+	response.json(_.map(sessionStore.sessions, function(session, id){
+		return {id: id};
+	}));
 });
+
+setInterval(function(){
+	_.each(sessionStore.sessions, function(sessionString, id){
+		var session = JSON.parse(sessionString),
+			expires = 'string' == typeof session.cookie.expires ? new Date(session.cookie.expires) : session.cookie.expires;
+		if (!expires || new Date >= expires) {
+			sessionStore.destroy(id);
+		}
+	});
+}, 300000);
 
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
