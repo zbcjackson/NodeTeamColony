@@ -247,6 +247,9 @@ PRE.prettyprint {
 /* Wall style */
 #main{
 }
+.section{
+	margin-top: 10px;
+}
 input[type="text"]{
 	border: 0;
 	width: 100%;
