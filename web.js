@@ -119,8 +119,12 @@ app.post('/check', function(request, response){
 });
 
 app.get('/users', function(request, response){
-	response.json(_.map(sessionStore.sessions, function(session, id){
-		return {id: id};
+	response.json(_.map(sessionStore.sessions, function(sessionString, id){
+		var session = new express.session.Session(request, JSON.parse(sessionString));
+		var expires = session.cookie.expires;
+		session.cookie = new express.session.Cookie(session.cookie);
+		if ('string' == typeof expires) session.cookie.expires = new Date(expires);
+		return {id: id, maxAge: session.cookie.maxAge, expires: session.cookie.expires};
 	}));
 });
 
