@@ -1,7 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="utf-8">
 		<title>Team Colony</title>
+		<meta name="description" content="">
+		<meta name="author" content="Jackson Zhang">
+
+		<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+		<!--[if lt IE 9]>
+		  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<!-- Le styles -->
+		<link href="css/bootstrap-1.1.1.css" rel="stylesheet">
+
+		<!-- Le fav and touch icons -->
+		<link rel="shortcut icon" href="img/favicon.ico">
+		<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css"/>
+		<link type="text/css" rel="stylesheet" href="css/ui.notify.css" />
+		<link type="text/css" rel="stylesheet" href="css/main.css" />
 
 		<script type="text/javascript" src="js/lib/jquery-1.6.2.js"></script>
 		<script type="text/javascript" src="js/lib/mustache.js"></script>
@@ -11,57 +32,64 @@
 		<script type="text/javascript" src="js/lib/jquery.notify.js"></script>
 		<script type="text/javascript" src="js/sea.js" data-main="main"></script>
 
-		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css"/>
-		<link type="text/css" rel="stylesheet" href="css/ui.notify.css" />
-		<style>
-			input[type="text"]{
-				border: 0;
-				width: 100%;
-			}
-			tr{
-				-webkit-transition:background-color 2s ease-in;  
-				-moz-transition:background-color 2s ease-in;  
-				-o-transition:background-color 2s ease-in;  
-				transition:background-color 2s ease-in;  
-			}
-			tr.new{
-				background-color: Yellow;
-			}
-			#online{
-				clear: both;
-			}
-			#onlineContainer{
-				position: fixed;
-				bottom: 0px;
-			}
-			.delete{
-				display: none;
-			}
-			td:hover .delete{
-				display: block;
-			}
-		</style>
 	</head>
 	<body>
-		<div>Specification By Example</div>
-		<div style="float:right"><button id="add">+</button><button id="save">Save</button></div>
-		<div>
-			<table border="1" width="100%">
-				<tr>
-					<th>Chapter</th>
-					<th>Estimation</th>
-					<th>Translate</th>
-					<th>Finish</th>
-					<th>Review 1</th>
-					<th>Finish</th>
-					<th>Review 2</th>
-					<th>Finish</th>
-				</tr>
-			</table>
+
+		<div class="topbar">
+		  <div class="fill">
+			<div class="container">
+			  <h3><a href="#">Team Colony</a></h3>
+			  <ul>
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#contact">Contact</a></li>
+			  </ul>
+			</div>
+		  </div>
 		</div>
-		<div id="onlineContainer">Online:<span id="online"></span></div>
+
+		<div id="masthead">
+			<div class="inner">
+				<div class="container">
+					<h1>Specification By Example</h1>
+				</div>
+			</div>
+		</div>
+
+		<div id="main" class="container">
+			<div>
+				<span id="onlineContainer">Online:<span id="online"></span></span>
+				<span style="float:right"><button class="btn primary" id="add">Add</button></span>
+			</div>
+
+			<div>
+				<table class="zebra-striped" width="100%">
+					<tr>
+						<th>Chapter</th>
+						<th>Estimation</th>
+						<th>Translate</th>
+						<th>Finish</th>
+						<th>Review 1</th>
+						<th>Finish</th>
+						<th>Review 2</th>
+						<th>Finish</th>
+						<th class="action"></th>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+
+		<div id="footer">
+			<div class="inner">
+				<div class="container">
+					<p>© Team Colony 2011</p>
+				</div>
+			</div>
+		</div>
+
 		<script id="taskTemplate" type="text/html">			
-			<td><input type="text" data="name" value="{{name}}" /><button class="delete">Delete</div></td>
+			<td><input type="text" data="name" value="{{name}}" /></td>
 			<td><input type="text" data="estimation" value="{{estimation}}" /></td>
 			<td><input type="text" data="translator" value="{{translator}}" /></td>
 			<td><input type="checkbox" data="translateFinish" {{#translateFinish}}checked{{/translateFinish}} /></td>
@@ -69,6 +97,8 @@
 			<td><input type="checkbox" data="review1Finish" {{#review1Finish}}checked{{/review1Finish}} /></td>
 			<td><input type="text" data="reviewer2" value="{{reviewer2}}" /></td>
 			<td><input type="checkbox" data="reviewer2Finish" {{#review2Finish}}checked{{/review2Finish}} /></td>
+			<td class="action"><button class="btn danger delete">Delete</div></td>
 		</script>
+
 	</body>
 </html>

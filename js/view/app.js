@@ -6,7 +6,6 @@ define(function(require, exports, module){
 		el: $("body"),
 
 		events: {
-			"click #save": "save",
 			"click #add": "add"
 		},
 
@@ -21,9 +20,6 @@ define(function(require, exports, module){
 			users.fetch();
 		},
 
-		save: function(){
-			console.dir(tasks);
-		},
 		add: function(){
 			var task = tasks.create();
 		},

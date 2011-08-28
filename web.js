@@ -34,7 +34,7 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: "secret_key", store: sessionStore, cookie: {maxAge: 300000} }));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));
-app.use('/pic', express.static(__dirname + '/pic'));
+app.use('/img', express.static(__dirname + '/img'));
 app.set("view options", {layout: false});
 app.register('.mustache', tmpl);
 
