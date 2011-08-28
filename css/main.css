@@ -263,11 +263,18 @@ tr{
 tr.new{
 	background-color: Yellow;
 }
-#online{
-	clear: both;
-}
 #onlineContainer{
 	position: relative;
+	float: left;
+}
+#online{
+	display: inline-block;
+	vertical-align: middle;
+	height: 35px;
+}
+#onlineContainer span{
+	font-weight: bold;
+	font-size: 20px;
 }
 .delete{
 	visibility: hidden;
