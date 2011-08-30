@@ -123,9 +123,6 @@ div.quickstart form textarea {
 }
 #footer {
   margin-top: 80px;
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
 }
 #footer p {
   margin-bottom: 0;
@@ -246,6 +243,7 @@ PRE.prettyprint {
 
 /* Wall style */
 #main{
+	min-height: 600px;
 }
 .section{
 	margin-top: 10px;

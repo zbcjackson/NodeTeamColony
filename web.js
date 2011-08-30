@@ -136,7 +136,7 @@ setInterval(function(){
 			sessionStore.destroy(id);
 		}
 	});
-}, 300000);
+}, 100000);
 
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
