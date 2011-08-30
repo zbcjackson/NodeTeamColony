@@ -4,7 +4,7 @@ var cradle = require('cradle');
 var fs = require('fs');
 var _=require('underscore');
 
-var db = new(cradle.Connection)('http://teamcolony.iriscouch.com', 80).database('colony');
+var db = new(cradle.Connection)('http://localhost', 5984).database('colony');
 
 var tmpl = {
 	compile: function(source, options){
