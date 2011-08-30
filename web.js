@@ -102,7 +102,7 @@ app.post('/check', function(request, response){
 		if (doc && doc.rows){
 			doc.rows.forEach(function(row){
 				var existingTask = _.detect(have, function(task){
-					return row.key === task.id;
+					return row.value._id === task.id;
 				});
 				if (existingTask){
 					if (row.value._rev != existingTask.rev){

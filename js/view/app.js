@@ -9,6 +9,8 @@ define(function(require, exports, module){
 			"click #add": "add"
 		},
 
+		taskViews: [],
+
 		initialize: function(){
 			this.el = $("body");
 
@@ -16,21 +18,34 @@ define(function(require, exports, module){
 			tasks.bind('reset', this.addAll, this);
 			tasks.fetch();
 
+			var self = this;
+			this.$("table tbody").sortable({
+				stop: function(){
+					for(var i = 0, length = self.taskViews.length; i < length; ++i){
+						var view = self.taskViews[i];
+						var model = view.model;
+						model.set({order: $(view.el).index()});
+					}
+				}
+			});
+			this.$("table tbody").disableSelection();
+
 			users.bind('reset', this.renderOnline, this);
 			users.fetch();
 		},
 
 		add: function(){
-			var task = tasks.create();
+			var task = tasks.create({order: tasks.size()});
 		},
 		addOne: function(task){
 			var view = new TaskView({model: task});
+			this.taskViews.push(view);
 			var row = $(view.render().el);
-			this.$("table").append(row);
+			this.$("table tbody").append(row);
 			row.removeClass("new");
 		},
 		addAll: function(){
-			tasks.each(this.addOne);
+			tasks.each(this.addOne, this);
 		},
 		checkChange: function(){
 			$.post(
